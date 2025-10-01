@@ -2,6 +2,8 @@
 
 A polished full-stack task management platform that showcases secure authentication, collaborative task workflows, and a modern React interface. Built to demonstrate production-ready engineering practices during interviews and portfolio reviews.
 
+🌐 **[Live Demo](https://ageis.vercel.app)** | 🔗 **[Backend API](https://ageis.onrender.com/api/health)**
+
 ## Table of Contents
 - [Overview](#overview)
 - [Tech Stack](#tech-stack)
