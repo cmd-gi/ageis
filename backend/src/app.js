@@ -34,20 +34,32 @@ const createApp = () => {
    * Configure based on environment
    */
   const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: function (origin, callback) {
+      // Allow requests with no origin (mobile apps, Postman, etc.)
+      if (!origin) return callback(null, true);
+      
+      const allowedOrigins = [
+        process.env.FRONTEND_URL,
+        'https://ageis.vercel.app',
+        'https://ageis.vercel.app/',
+        'http://localhost:5173',
+        'http://localhost:8081',
+        'http://localhost:3000',
+        'http://127.0.0.1:5173',
+        'http://127.0.0.1:8081'
+      ].filter(Boolean); // Remove undefined values
+      
+      // Check if origin is in allowed list
+      if (allowedOrigins.some(allowed => origin.startsWith(allowed.replace(/\/$/, '')))) {
+        callback(null, true);
+      } else {
+        console.log('CORS blocked origin:', origin);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true, // Allow cookies and authorization headers
     optionsSuccessStatus: 200,
   };
-
-  // In development, allow multiple origins
-  if (process.env.NODE_ENV === 'development') {
-    corsOptions.origin = [
-      'http://localhost:5173',
-      'http://localhost:5174',
-      'http://localhost:3000',
-      'http://127.0.0.1:5173',
-    ];
-  }
 
   app.use(cors(corsOptions));
 
